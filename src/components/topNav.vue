@@ -3,7 +3,7 @@
     <div class="ui container">
         <a href="#" class="header item">
             <i class="bar chart icon"></i>
-                Database Monitor
+                {{ msg }}
         </a>
         <div class="right menu">
             <div class="ui simple dropdown item">
@@ -36,10 +36,10 @@
 
 <script>
 export default {
-  name: 'topNav',
+  name: 'TopNav',
   data() {
     return {
-      msg: 'DB Monitor'
+      msg: 'Database Monitor'
     }
   }
 }
