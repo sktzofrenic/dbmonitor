@@ -5,19 +5,27 @@
             <SideBar></SideBar>
         </div>
         <div class="content">
-            <p>Content</p>
+            <ContentTitle></ContentTitle>
+            <ContentBody></ContentBody>
         </div>
+        <Modal></Modal>
   </div>
 </template>
 
 <script>
 import TopNav from '@/components/TopNav.vue'
 import SideBar from '@/components/SideBar.vue'
+import ContentTitle from '@/components/ContentTitle.vue'
+import ContentBody from '@/components/ContentBody.vue'
+import Modal from '@/components/Modal.vue'
 export default {
   name: 'app',
   components: {
       TopNav,
-      SideBar
+      SideBar,
+      ContentTitle,
+      ContentBody,
+      Modal
   },
 }
 </script>
@@ -33,18 +41,20 @@ export default {
 
 .sidebar {
     position: fixed;
-    width: 200px;
+    width: 300px;
     padding-top: 60px;
     height: 100vh;
     background: #f3f3f3;
 }
 .content {
-    margin-left: 200px;
+    margin-left: 300px;
     height: 100vh;
     padding-top: 60px;
+    padding-left: 20px;
+    padding-right: 20px;
     width: auto;
     position: relative;
-    background: #c3c3c3;
+    background: #e6e6e6;
     z-index: 1;
 }
 </style>
