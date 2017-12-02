@@ -15,7 +15,11 @@
                             </tr>
                             <tr>
                                 <td>High Wait Queries</td>
-                                <td>4 Total</td>
+                                <td>
+                                    <span class="link" @click="toggleModal()">
+                                        4 Total
+                                    </span>
+                            </td>
                             </tr>
                             <tr>
                                 <td>Agent Version</td>
@@ -47,7 +51,7 @@
                             </tr>
                             <tr>
                                 <td>Arch</td>
-                                <td><span v-if="activeDatabase.agent">{{ activeDatabase.agent.arch }}</span></td>
+                                <td>{{ activeDatabase.agent.arch }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -85,20 +89,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="q in activeDatabase.topQueries">
+                    <tr v-for="(q, index) in activeDatabase.topQueries">
                         <td>{{ q.text.slice(0, 50) }}...</td>
-                        <td>Avg wait time: {{ q.wait }} seconds</td>
+                        <td class="link" @click="toggleModal()">Avg wait time: {{ q.wait }} seconds</td>
                         <td>Total wait time: {{ (q.wait * q.execs / 60).toFixed(1)}} min</td>
-                        <td>
-                            <button class="ui icon button">
-                                <i class="ellipsis vertical icon"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Select report_name, report_type, export_support, total_sales, avg_margin from sales where...</td>
-                        <td>Avg wait time: 3 seconds</td>
-                        <td>Total wait time: 33 minutes</td>
                         <td>
                             <button class="ui icon button">
                                 <i class="ellipsis vertical icon"></i>

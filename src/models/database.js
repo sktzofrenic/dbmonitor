@@ -51,8 +51,14 @@ export function Database (options) {
     this.commandString = options['commandString'] || ''
     this.databaseTypeString = options['databaseTypeString'] || ''
     this.namedInstance = options['namedInstance'] || ''
-    this.agent = options['agent'] || {}
-    this.stats = options['stats'] || {}
+    this.agent = options['agent'] || {
+        arch: '',
+        os: ''
+    }
+    this.stats = options['stats'] || {
+        io: '',
+        cpu: ''
+    }
     this.topQueries = options['topQueries'] || []
 
     Object.defineProperty(this, 'setAgent', {

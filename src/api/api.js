@@ -35,21 +35,28 @@ export function Api (options) {
             if (name === 'agent') {
                 axios.get(`${that.baseUrl}/agent/`, {
                 }).then(function (response) {
-                    vm.agent = response.data.filter(function (agent) {
+                    var agent = response.data.filter(function (agent) {
                         return vm.agentUuid === agent.uuid
                     })[0]
+                    if (agent) {
+                        vm.agent = agent
+                    }
                 })
             }
             if (name === 'agent' && id) {
                 axios.get(`${that.baseUrl}/agent/${id}`, {
                 }).then(function (response) {
-                    vm = response.data
+                    if (response.data) {
+                        vm = response.data
+                    }
                 })
             }
             if (name === 'metric' && id) {
                 axios.get(`${that.baseUrl}/db/${id}/metric`, {
                 }).then(function (response) {
-                    vm.stats = response.data
+                    if (response.data) {
+                        vm.stats = response.data
+                    }
                 })
             }
             if (name === 'metrics' && id) {
