@@ -7,11 +7,11 @@
                         <tbody>
                             <tr>
                                 <td class="eight wide column">Name</td>
-                                <td>DEV-AUS-PGRA-01</td>
+                                <td>{{ activeDatabase.name }}</td>
                             </tr>
                             <tr>
                                 <td>MySQL Version</td>
-                                <td>7.2</td>
+                                <td>{{ activeDatabase.databaseVersionString }}</td>
                             </tr>
                             <tr>
                                 <td>High Wait Queries</td>
@@ -19,7 +19,7 @@
                             </tr>
                             <tr>
                                 <td>Agent Version</td>
-                                <td>1.1</td>
+                                <td> <i>undefined</i> </td>
                             </tr>
                         </tbody>
                     </table>
@@ -29,19 +29,25 @@
                         <tbody>
                             <tr>
                                 <td class="eight wide column">CPU</td>
-                                <td> <span class="link" @click="toggleModal()">27%</span> </td>
+                                <td>
+                                    <span v-if="activeDatabase.stats.cpu" class="link" @click="toggleModal()">{{ activeDatabase.stats.cpu }}%</span>
+                                </td>
                             </tr>
                             <tr>
                                 <td>OS</td>
-                                <td>Linux</td>
+                                <td>
+                                    <span v-if="activeDatabase.agent">{{ activeDatabase.agent.os }}</span>
+                                </td>
                             </tr>
                             <tr>
                                 <td>Disk I/O</td>
-                                <td>213 kBs</td>
+                                <td>
+                                    <span v-if="activeDatabase.stats.io">{{ activeDatabase.stats.io}} kBs</span>
+                                </td>
                             </tr>
                             <tr>
                                 <td>Arch</td>
-                                <td>x86_64</td>
+                                <td><span v-if="activeDatabase.agent">{{ activeDatabase.agent.arch }}</span></td>
                             </tr>
                         </tbody>
                     </table>
@@ -51,7 +57,7 @@
                         <tbody>
                             <tr>
                                 <td class="eight wide column">Hostname</td>
-                                <td>dog.com</td>
+                                <td>{{ activeDatabase.host }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -79,10 +85,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Select user_id, territory, comp_range, total_sales, avg_margin from sales where...</td>
-                        <td>Avg wait time: 4 seconds</td>
-                        <td>Total wait time: 40 minutes</td>
+                    <tr v-for="q in activeDatabase.topQueries">
+                        <td>{{ q.text.slice(0, 50) }}...</td>
+                        <td>Avg wait time: {{ q.wait }} seconds</td>
+                        <td>Total wait time: {{ (q.wait * q.execs / 60).toFixed(1)}} min</td>
                         <td>
                             <button class="ui icon button">
                                 <i class="ellipsis vertical icon"></i>
@@ -106,12 +112,17 @@
 </template>
 
 <script>
-import {mapActions} from 'vuex'
+import {mapActions, mapGetters} from 'vuex'
 
 export default {
     methods: {
         ...mapActions([
             'toggleModal'
+        ])
+    },
+    computed: {
+        ...mapGetters([
+            'activeDatabase'
         ])
     }
 }

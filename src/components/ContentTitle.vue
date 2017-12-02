@@ -4,9 +4,9 @@
             <h2 class="ui header">
                 <i class="warning sign icon title-header"></i>
                 <div class="content title-content">
-                    DEV-AUS-PGRA-01
+                    {{ activeDatabase.name }} {{ activeDatabase.id}}
                     <div class="sub header">
-                        10.1.1.14 (db_sales_server.corp.com)
+                        {{ activeDatabase.ip }} ({{ activeDatabase.host }})
                         <div class="ui compact menu title-icon">
                             <div class="ui simple dropdown item">
                                 Commands
@@ -26,7 +26,13 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
 export default {
+    computed: {
+        ...mapGetters([
+            'activeDatabase'
+        ])
+    }
 }
 </script>
 

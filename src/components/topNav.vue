@@ -34,12 +34,12 @@
 
 <script>
 export default {
-  name: 'TopNav',
-  data() {
-    return {
-      msg: 'Database Monitor'
+    name: 'TopNav',
+    data () {
+        return {
+            msg: 'Database Monitor'
+        }
     }
-  }
 }
 </script>
 

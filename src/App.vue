@@ -4,7 +4,7 @@
         <div class="sidebar">
             <SideBar></SideBar>
         </div>
-        <div class="content">
+        <div class="content" v-if="activeDatabase">
             <ContentTitle></ContentTitle>
             <ContentBody></ContentBody>
         </div>
@@ -18,15 +18,23 @@ import SideBar from '@/components/SideBar.vue'
 import ContentTitle from '@/components/ContentTitle.vue'
 import ContentBody from '@/components/ContentBody.vue'
 import Modal from '@/components/Modal.vue'
+
+import {mapGetters} from 'vuex'
+
 export default {
-  name: 'app',
-  components: {
-      TopNav,
-      SideBar,
-      ContentTitle,
-      ContentBody,
-      Modal
-  },
+    name: 'app',
+    components: {
+        TopNav,
+        SideBar,
+        ContentTitle,
+        ContentBody,
+        Modal
+    },
+    computed: {
+        ...mapGetters([
+            'activeDatabase'
+        ])
+    }
 }
 </script>
 

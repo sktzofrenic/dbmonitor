@@ -1,15 +1,15 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import topNav from '@/components/topNav'
+import TopNav from '@/components/TopNav'
 
 Vue.use(Router)
 
 export default new Router({
-  routes: [
-    {
-      path: '/',
-      name: 'topNav',
-      component: topNav
-    }
-  ]
+    routes: [
+        {
+            path: '/',
+            name: 'TopNav',
+            component: TopNav
+        }
+    ]
 })
