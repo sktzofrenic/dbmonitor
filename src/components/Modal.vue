@@ -1,5 +1,5 @@
 <template lang="html">
-    <div class="ui modal">
+    <div class="ui modal" :class="{'active': showModal}">
         <i class="close icon"></i>
         <div class="header">
             Modal Title
@@ -8,7 +8,7 @@
             Modal Content
         </div>
         <div class="actions">
-            <div class="ui black deny button">
+            <div class="ui black deny button" @click="toggleModal()">
                 Close
             </div>
             <!-- <div class="ui positive right labeled icon button">
@@ -20,7 +20,19 @@
 </template>
 
 <script>
+import {mapGetters, mapActions} from 'vuex'
+
 export default {
+    computed: {
+        ...mapGetters([
+            'showModal'
+        ])
+    },
+    methods: {
+        ...mapActions([
+            'toggleModal'
+        ])
+    }
 }
 </script>
 

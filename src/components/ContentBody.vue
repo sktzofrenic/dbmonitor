@@ -29,7 +29,7 @@
                         <tbody>
                             <tr>
                                 <td class="eight wide column">CPU</td>
-                                <td>27%</td>
+                                <td> <span class="link" @click="toggleModal()">27%</span> </td>
                             </tr>
                             <tr>
                                 <td>OS</td>
@@ -106,11 +106,22 @@
 </template>
 
 <script>
+import {mapActions} from 'vuex'
+
 export default {
+    methods: {
+        ...mapActions([
+            'toggleModal'
+        ])
+    }
 }
 </script>
 
 <style lang="css" scoped>
+.link {
+    cursor: pointer;
+    color: blue;
+}
 .content-body {
     margin-top: 10px !important;
 }
