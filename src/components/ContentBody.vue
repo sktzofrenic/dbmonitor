@@ -16,7 +16,7 @@
                             <tr>
                                 <td>High Wait Queries</td>
                                 <td>
-                                    <span class="link" @click="toggleModal()">
+                                    <span class="link" @click="toggleModal({'title': 'Queries in wait alert last 10 minutes', 'chartType': 'bar'})">
                                         4 Total
                                     </span>
                             </td>
@@ -34,7 +34,7 @@
                             <tr>
                                 <td class="eight wide column">CPU</td>
                                 <td>
-                                    <span v-if="activeDatabase.stats.cpu" class="link" @click="toggleModal()">{{ activeDatabase.stats.cpu }}%</span>
+                                    <span v-if="activeDatabase.stats.cpu" class="link" @click="toggleModal({'title': '% CPU used by DB', 'chartType': 'line'})">{{ activeDatabase.stats.cpu }}%</span>
                                 </td>
                             </tr>
                             <tr>
@@ -91,7 +91,7 @@
                 <tbody>
                     <tr v-for="(q, index) in activeDatabase.topQueries">
                         <td>{{ q.text.slice(0, 50) }}...</td>
-                        <td class="link" @click="toggleModal()">Avg wait time: {{ q.wait }} seconds</td>
+                        <td class="link" @click="toggleModal({'title': q.text.slice(0, 50) + '...', 'chartType': 'bar'})">Avg wait time: {{ q.wait }} seconds</td>
                         <td>Total wait time: {{ (q.wait * q.execs / 60).toFixed(1)}} min</td>
                         <td>
                             <button class="ui icon button">

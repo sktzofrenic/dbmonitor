@@ -1,14 +1,14 @@
 <template lang="html">
-    <div class="ui modal" :class="{'active': showModal}">
+    <div v-if="showModal" class="ui modal active">
         <i class="close icon"></i>
         <div class="header">
-            % CPU used by DB
+            {{ modalData.title }}
         </div>
         <div class="content">
             <canvas id="myChart" width="400" height="200px"></canvas>
         </div>
         <div class="actions">
-            <div class="ui black deny button" @click="toggleModal()">
+            <div class="ui black deny button" @click="toggleModal({})">
                 Close
             </div>
         </div>
@@ -22,7 +22,8 @@ import Chart from 'chart.js'
 export default {
     computed: {
         ...mapGetters([
-            'showModal'
+            'showModal',
+            'modalData'
         ])
     },
     methods: {
@@ -30,31 +31,18 @@ export default {
             'toggleModal'
         ])
     },
-    mounted: function() {
-        var ctx = document.getElementById("myChart");
+    updated: function () {
+        var vm = this
+        var ctx = document.getElementById('myChart')
         var myChart = new Chart(ctx, {
-            type: 'bar',
+            type: vm.modalData.chartType,
             data: {
-                labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+                labels: ['Select user_id, report_id...', 'Select wait_time, op_time...', 'Select total_query, date...', 'Select users, reports...'],
                 datasets: [{
-                    label: '# of Votes',
-                    data: [12, 19, 3, 5, 2, 3],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255,99,132,1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
+                    label: 'Total Queries',
+                    data: [44332, 50500, 50505, 60303],
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
                     borderWidth: 1
                 }]
             },
@@ -62,12 +50,17 @@ export default {
                 scales: {
                     yAxes: [{
                         ticks: {
-                            beginAtZero:true
+                            beginAtZero: true
                         }
-                    }]
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }],
                 }
             }
-        });
+        })
     }
 }
 </script>

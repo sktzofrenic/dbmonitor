@@ -6,7 +6,11 @@ Vue.use(Vuex)
 export const store = new Vuex.Store({
     state: {
         showModal: false,
-        activeDatabase: false
+        activeDatabase: false,
+        modalData: {
+            title: '',
+            chartType: ''
+        }
     },
     getters: {
         showModal: state => {
@@ -14,10 +18,14 @@ export const store = new Vuex.Store({
         },
         activeDatabase: state => {
             return state.activeDatabase
+        },
+        modalData: state => {
+            return state.modalData
         }
     },
     mutations: {
-        toggleModal: (state) => {
+        toggleModal: (state, modal) => {
+            state.modalData = modal
             state.showModal = !state.showModal
         },
         setActiveDatabase: (state, database) => {
@@ -25,8 +33,8 @@ export const store = new Vuex.Store({
         }
     },
     actions: {
-        toggleModal: (context) => {
-            context.commit('toggleModal')
+        toggleModal: (context, payload) => {
+            context.commit('toggleModal', payload)
         },
         setActiveDatabase: (context, payload) => {
             context.commit('setActiveDatabase', payload)
