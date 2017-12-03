@@ -63,7 +63,7 @@ export function Database (options) {
 
     Object.defineProperty(this, 'setAgent', {
         value: function () {
-            api.get(this, 'agent')
+            api.get(this, 'agent', this.agentUuid)
         }
     })
 

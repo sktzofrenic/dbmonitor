@@ -57,10 +57,11 @@ export default {
                         ticks: {
                             beginAtZero: true
                         }
-                    }],
+                    }]
                 }
             }
         })
+        console.log(myChart)
     }
 }
 </script>

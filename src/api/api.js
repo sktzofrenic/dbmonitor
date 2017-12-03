@@ -32,7 +32,7 @@ export function Api (options) {
                     vm.setActiveDatabase(database)
                 })
             }
-            if (name === 'agent') {
+            if (name === 'agents') {
                 axios.get(`${that.baseUrl}/agent/`, {
                 }).then(function (response) {
                     var agent = response.data.filter(function (agent) {
@@ -47,7 +47,7 @@ export function Api (options) {
                 axios.get(`${that.baseUrl}/agent/${id}`, {
                 }).then(function (response) {
                     if (response.data) {
-                        vm = response.data
+                        vm.agent = response.data
                     }
                 })
             }
