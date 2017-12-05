@@ -23,7 +23,8 @@ export default {
     computed: {
         ...mapGetters([
             'showModal',
-            'modalData'
+            'modalData',
+            'activeDatabase'
         ])
     },
     methods: {
@@ -32,15 +33,53 @@ export default {
         ])
     },
     updated: function () {
+        var labels = []
+        var data = []
+        var label = ''
+        if (this.modalData.title === 'Queries in wait alert last 10 minutes') {
+            labels = this.activeDatabase.highWaitQueries.map(function (value) {
+                return value.text
+            })
+            data = this.activeDatabase.highWaitQueries.map(function (value) {
+                return value.wait
+            })
+            label = 'Seconds per Query'
+        } else if (this.modalData.title === '% CPU used by DB') {
+            labels = this.activeDatabase.cpuGraph.map(function (value) {
+                return value.date
+            })
+            data = this.activeDatabase.cpuGraph.map(function (value) {
+                return value.value
+            })
+            label = '%'
+        } else if (this.modalData.title === 'Disk I/O in kBs') {
+            labels = this.activeDatabase.ioGraph.map(function (value) {
+                return value.date
+            })
+            data = this.activeDatabase.ioGraph.map(function (value) {
+                return value.value
+            })
+            label = 'kBs'
+        } else if (this.modalData.title === '% Memory Usage') {
+            labels = this.activeDatabase.memoryGraph.map(function (value) {
+                return value.date
+            })
+            data = this.activeDatabase.memoryGraph.map(function (value) {
+                return value.value
+            })
+            label = '%'
+        }
         var vm = this
         var ctx = document.getElementById('myChart')
         var myChart = new Chart(ctx, {
             type: vm.modalData.chartType,
             data: {
-                labels: ['Select user_id, report_id...', 'Select wait_time, op_time...', 'Select total_query, date...', 'Select users, reports...'],
+                labels: labels.map(function (value) {
+                    return value.slice(0, 20) + '...'
+                }),
                 datasets: [{
-                    label: 'Total Queries',
-                    data: [44332, 50500, 50505, 60303],
+                    label: label,
+                    data: data,
                     backgroundColor: 'rgba(54, 162, 235, 0.2)',
                     borderColor: 'rgba(54, 162, 235, 1)',
                     borderWidth: 1
@@ -58,6 +97,15 @@ export default {
                             beginAtZero: true
                         }
                     }]
+                },
+                tooltips: {
+                    enabled: true,
+                    mode: 'single',
+                    callbacks: {
+                        label: function (tooltipItems, data) {
+                            return labels[tooltipItems['index']].slice(0, 80) + '...'
+                        }
+                    }
                 }
             }
         })

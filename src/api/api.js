@@ -29,6 +29,10 @@ export function Api (options) {
                     database.setAgent()
                     database.getStats()
                     database.getTopQueries()
+                    database.getHighWaitQueries()
+                    database.setCpuGraph()
+                    database.setIoGraph()
+                    database.setMemoryGraph()
                     vm.setActiveDatabase(database)
                 })
             }
@@ -59,6 +63,24 @@ export function Api (options) {
                     }
                 })
             }
+            if (name === 'metricCpu' && id) {
+                axios.get(`${that.baseUrl}/db/${id}/metric/cpu`, {
+                }).then(function (response) {
+                    vm(response.data)
+                })
+            }
+            if (name === 'metricIo' && id) {
+                axios.get(`${that.baseUrl}/db/${id}/metric/io`, {
+                }).then(function (response) {
+                    vm(response.data)
+                })
+            }
+            if (name === 'metricMemory' && id) {
+                axios.get(`${that.baseUrl}/db/${id}/metric/memory`, {
+                }).then(function (response) {
+                    vm(response.data)
+                })
+            }
             if (name === 'metrics' && id) {
                 axios.get(`${that.baseUrl}/db/${id}/metrics`, {
                 }).then(function (response) {
@@ -71,10 +93,10 @@ export function Api (options) {
                     return response.data
                 })
             }
-            if (name === 'wait' && id && options) {
-                axios.get(`${that.baseUrl}/db/${id}/wait/${id}`, {
+            if (name === 'waitTop' && id && options) {
+                axios.get(`${that.baseUrl}/db/${id}/wait/${options['top']}`, {
                 }).then(function (response) {
-                    vm.topQueries = response.data
+                    vm(response.data)
                 })
             }
         }

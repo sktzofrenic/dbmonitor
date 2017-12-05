@@ -9,6 +9,8 @@ export function Database (options) {
     if (!(this instanceof Database)) {
         return new Database()
     }
+    this.highWaitQueryThreshold = 30 // in seconds
+
     this.id = options['id'] || ''
     this.machineName = options['machineName'] || ''
     this.instanceName = options['instanceName'] || ''
@@ -52,18 +54,53 @@ export function Database (options) {
     this.databaseTypeString = options['databaseTypeString'] || ''
     this.namedInstance = options['namedInstance'] || ''
     this.agent = options['agent'] || {
-        arch: '',
-        os: ''
+        'arch': '',
+        'hostname': '',
+        'ip': '',
+        'os': '',
+        'uuid': ''
     }
     this.stats = options['stats'] || {
         io: '',
-        cpu: ''
+        cpu: '',
+        memory: ''
     }
     this.topQueries = options['topQueries'] || []
+    this.highWaitQueries = options['highWaitQueries'] || []
+    this.cpuGraph = options['cpuGraph'] || []
+    this.ioGraph = options['ioGraph'] || []
+    this.memoryGraph = options['memoryGraph'] || []
 
     Object.defineProperty(this, 'setAgent', {
         value: function () {
             api.get(this, 'agent', this.agentUuid)
+        }
+    })
+
+    Object.defineProperty(this, 'setCpuGraph', {
+        value: function () {
+            var that = this
+            api.get(function (data) {
+                that.cpuGraph = data
+            }, 'metricCpu', that.id)
+        }
+    })
+
+    Object.defineProperty(this, 'setIoGraph', {
+        value: function () {
+            var that = this
+            api.get(function (data) {
+                that.ioGraph = data
+            }, 'metricIo', that.id)
+        }
+    })
+
+    Object.defineProperty(this, 'setMemoryGraph', {
+        value: function () {
+            var that = this
+            api.get(function (data) {
+                that.memoryGraph = data
+            }, 'metricMemory', that.id)
         }
     })
 
@@ -75,7 +112,21 @@ export function Database (options) {
 
     Object.defineProperty(this, 'getTopQueries', {
         value: function () {
-            api.get(this, 'wait', this.id, {'top': this.id})
+            var that = this
+            api.get(function (queries) {
+                that.topQueries = queries
+            }, 'waitTop', this.id, {'top': 5})
+        }
+    })
+
+    Object.defineProperty(this, 'getHighWaitQueries', {
+        value: function () {
+            var that = this
+            api.get(function (queries) {
+                that.highWaitQueries = queries.filter(function (value) {
+                    return value.wait > that.highWaitQueryThreshold
+                })
+            }, 'waitTop', this.id, {'top': 20})
         }
     })
 }
