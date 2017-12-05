@@ -55,6 +55,12 @@ export function Api (options) {
                     }
                 })
             }
+            if (name === 'sqlBreakdownGraph' && id) {
+                axios.get(`${that.baseUrl}/db/${id}/wait/type/${options['hash']}`, {
+                }).then(function (response) {
+                    vm(response.data)
+                })
+            }
             if (name === 'metric' && id) {
                 axios.get(`${that.baseUrl}/db/${id}/metric`, {
                 }).then(function (response) {

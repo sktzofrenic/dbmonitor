@@ -106,8 +106,10 @@
                 </thead>
                 <tbody>
                     <tr v-for="(q, index) in activeDatabase.topQueries">
-                        <td :title="q.text">{{ q.text.slice(0, 50) }}...</td>
-                        <td class="link" @click="toggleModal({'title': q.text.slice(0, 50) + '...', 'chartType': 'bar'})">Avg wait time: {{ (q.wait / q.execs).toFixed(1) }} seconds</td>
+                        <td class="sql link" :title="q.text" @click="displayQueryGraph(index)">
+                            <span v-if="q.text">{{ q.text.slice(0, 50) }}...</span>
+                        </td>
+                        <td>Avg wait time: {{ (q.wait / q.execs).toFixed(1) }} seconds</td>
                         <td>Total wait time: {{ (q.wait).toFixed(1) }} seconds</td>
                         <td>
                             <button class="ui icon button">
@@ -123,12 +125,25 @@
 
 <script>
 import {mapActions, mapGetters} from 'vuex'
+import {Api} from '@/api/api.js'
+
+var api = new Api()
 
 export default {
     methods: {
         ...mapActions([
             'toggleModal'
-        ])
+        ]),
+        displayQueryGraph (index) {
+            var vm = this
+            api.get(function (data) {
+                vm.activeDatabase.sqlBreakdownGraph = data
+                vm.toggleModal({
+                    'title': 'Wait by Type',
+                    'chartType': 'bar'
+                })
+            }, 'sqlBreakdownGraph', vm.activeDatabase.id, {'hash': vm.activeDatabase.topQueries[index].hash})
+        }
     },
     computed: {
         ...mapGetters([
@@ -159,5 +174,8 @@ export default {
 .search-box-2 {
     padding: 5px !important;
     padding-left: 15px !important;
+}
+.sql {
+    cursor: pointer;
 }
 </style>

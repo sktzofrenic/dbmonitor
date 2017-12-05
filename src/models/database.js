@@ -70,6 +70,7 @@ export function Database (options) {
     this.cpuGraph = options['cpuGraph'] || []
     this.ioGraph = options['ioGraph'] || []
     this.memoryGraph = options['memoryGraph'] || []
+    this.sqlBreakdownGraph = options['sqlBreakdownGraph'] || []
 
     Object.defineProperty(this, 'setAgent', {
         value: function () {
