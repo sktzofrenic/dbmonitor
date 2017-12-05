@@ -48,11 +48,18 @@ export default {
 }
 
 .sidebar {
-    position: fixed;
+    position: inherit;
+    float: left;
+    height: 100vh;
     width: 300px;
     padding-top: 60px;
     height: 100vh;
-    background: #f3f3f3;
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#f3f3f3+0,e6e6e6+100 */
+background: #f3f3f3; /* Old browsers */
+background: -moz-linear-gradient(top, #f3f3f3 0%, #e6e6e6 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top, #f3f3f3 0%,#e6e6e6 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom, #f3f3f3 0%,#e6e6e6 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f3f3f3', endColorstr='#e6e6e6',GradientType=0 ); /* IE6-9 */
 }
 .content {
     margin-left: 300px;

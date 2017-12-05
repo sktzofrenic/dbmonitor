@@ -40,7 +40,7 @@ export default {
         var datasets = []
         if (this.modalData.title === 'Queries in wait alert last 10 minutes') {
             labels = this.activeDatabase.highWaitQueries.map(function (value) {
-                return value.text
+                return value.text.slice(0, 50)
             })
             data = this.activeDatabase.highWaitQueries.map(function (value) {
                 return value.wait

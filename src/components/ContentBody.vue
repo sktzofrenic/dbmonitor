@@ -95,7 +95,7 @@
                     </div>
                 </div>
             </h3>
-            <table class="ui striped table">
+            <table class="ui striped compact table">
                 <thead>
                     <tr>
                         <th>Query</th>
