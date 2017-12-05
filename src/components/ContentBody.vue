@@ -107,7 +107,6 @@
                 <tbody>
                     <tr v-for="(q, index) in activeDatabase.topQueries">
                         <td @mouseleave="hidePopup(index)"
-                            @mouseover="showPopup(index)"
                             class="sql link"
                             @click="displayQueryGraph(index)">
                             <div @mouseleave="hidePopup(index)" class="data-container" >
@@ -117,7 +116,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <span v-if="q.text">{{ q.text.slice(0, 50) }}...</span>
+                            <span  @mouseover="showPopup(index)" v-if="q.text">{{ q.text.slice(0, 50) }}...</span>
                         </td>
                         <td>Avg wait time: {{ (q.wait / q.execs).toFixed(1) }} seconds</td>
                         <td>Total wait time: {{ (q.wait).toFixed(1) }} seconds</td>
