@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import {mapActions} from 'vuex'
+import {mapActions, mapGetters} from 'vuex'
 import {Api} from '@/api/api.js'
 export default {
     data () {
@@ -112,8 +112,17 @@ export default {
             }
         }
     },
+    computed: {
+        ...mapGetters([
+            'activeDatabase'
+        ])
+    },
     mounted () {
         this.listDatabases()
+        var vm = this
+        setInterval(function () {
+            vm.retrieveDatabase(vm.activeDatabase.id)
+        }, 30000)
     }
 }
 </script>

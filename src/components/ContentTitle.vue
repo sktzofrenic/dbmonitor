@@ -4,7 +4,7 @@
             <h2 class="ui header">
                 <i class="warning sign icon title-header"></i>
                 <div class="content title-content">
-                    {{ activeDatabase.name }} {{ activeDatabase.id}}
+                    {{ activeDatabase.name }}
                     <div class="sub header">
                         {{ activeDatabase.ip }} ({{ activeDatabase.host }})
                         <div class="ui compact menu title-icon">

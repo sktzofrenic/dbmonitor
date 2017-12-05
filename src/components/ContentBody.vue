@@ -58,7 +58,7 @@
                             <tr>
                                 <td class="ten wide column">High Wait Queries</td>
                                 <td>
-                                    <span class="link" @click="toggleModal({'title': 'Queries in wait alert last 10 minutes', 'chartType': 'bar'})">{{ activeDatabase.highWaitQueries.length }}</span>
+                                    <span class="link" @click="toggleModal({'title': 'Queries in Wait Alert Last 10 Minutes', 'chartType': 'bar'})">{{ activeDatabase.highWaitQueries.length }}</span>
                                 </td>
                             </tr>
                             <tr>
@@ -106,7 +106,17 @@
                 </thead>
                 <tbody>
                     <tr v-for="(q, index) in activeDatabase.topQueries">
-                        <td class="sql link" :title="q.text" @click="displayQueryGraph(index)">
+                        <td @mouseleave="hidePopup(index)"
+                            @mouseover="showPopup(index)"
+                            class="sql link"
+                            @click="displayQueryGraph(index)">
+                            <div @mouseleave="hidePopup(index)" class="data-container" >
+                                <div @mouseleave="hidePopup(index)" class="ui fluid popup top left transition" :class="{'visible': popupStatus[index]}">
+                                    <div  class="ui four column divided center aligned grid">
+                                        <p><pre class="pre">{{q.text}}</pre></p>
+                                    </div>
+                                </div>
+                            </div>
                             <span v-if="q.text">{{ q.text.slice(0, 50) }}...</span>
                         </td>
                         <td>Avg wait time: {{ (q.wait / q.execs).toFixed(1) }} seconds</td>
@@ -130,10 +140,31 @@ import {Api} from '@/api/api.js'
 var api = new Api()
 
 export default {
+    data () {
+        return {
+            popupStatus: {
+                0: false,
+                1: false,
+                2: false,
+                3: false,
+                4: false,
+            },
+        }
+    },
     methods: {
         ...mapActions([
             'toggleModal'
         ]),
+        showPopup (index) {
+            console.log('show')
+            this.popupStatus[index] = true
+            console.log(this.popupStatus)
+        },
+        hidePopup (index) {
+            console.log('hide')
+            this.popupStatus[index] = false
+            console.log(this.popupStatus)
+        },
         displayQueryGraph (index) {
             var vm = this
             api.get(function (data) {
@@ -177,5 +208,20 @@ export default {
 }
 .sql {
     cursor: pointer;
+}
+
+.data-container {
+    position: relative;
+}
+.popup {
+    position: absolute;
+    top: -100px;
+    left: 0px;
+    height: 100px;
+    width: 400px;
+    overflow-y: scroll;
+}
+.pre {
+    width: 100px;
 }
 </style>

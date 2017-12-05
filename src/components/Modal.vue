@@ -38,13 +38,15 @@ export default {
         var labels = []
         var data = []
         var datasets = []
-        if (this.modalData.title === 'Queries in wait alert last 10 minutes') {
+        var legendDisplay = true
+        if (this.modalData.title === 'Queries in Wait Alert Last 10 Minutes') {
             labels = this.activeDatabase.highWaitQueries.map(function (value) {
                 return value.text.slice(0, 50)
             })
             data = this.activeDatabase.highWaitQueries.map(function (value) {
                 return value.wait
             })
+            legendDisplay = false
             datasets = [{
                 label: 'Seconds per Query',
                 data: data,
@@ -59,6 +61,7 @@ export default {
             data = this.activeDatabase.cpuGraph.map(function (value) {
                 return value.value
             }).reverse()
+            legendDisplay = false
             datasets = [{
                 label: '%',
                 data: data,
@@ -73,6 +76,7 @@ export default {
             data = this.activeDatabase.ioGraph.map(function (value) {
                 return value.value
             }).reverse()
+            legendDisplay = false
             datasets = [{
                 label: 'kBs',
                 data: data,
@@ -87,6 +91,7 @@ export default {
             data = this.activeDatabase.memoryGraph.map(function (value) {
                 return value.value
             }).reverse()
+            legendDisplay = false
             datasets = [{
                 label: '%',
                 data: data,
@@ -139,6 +144,9 @@ export default {
                     datasets: datasets
                 },
                 options: {
+                    legend: {
+                        display: legendDisplay
+                    },
                     scales: {
                         yAxes: [{
                             stacked: true,
