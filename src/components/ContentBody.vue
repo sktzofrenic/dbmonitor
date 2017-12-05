@@ -58,25 +58,25 @@
                             <tr>
                                 <td class="ten wide column">High Wait Queries</td>
                                 <td>
-                                    <span class="link" @click="toggleModal({'title': 'Queries in Wait Alert Last 10 Minutes', 'chartType': 'bar'})">{{ activeDatabase.highWaitQueries.length }}</span>
+                                    <span class="link" @click="toggleModal({'title': 'Queries in Wait Alert Last 10 Minutes for DB...', 'chartType': 'bar'})">{{ activeDatabase.highWaitQueries.length }}</span>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="eight wide column">DB CPU Usage</td>
                                 <td>
-                                    <span v-if="activeDatabase.stats.cpu" class="link" @click="toggleModal({'title': '% CPU used by DB', 'chartType': 'line'})">{{ activeDatabase.stats.cpu }}%</span>
+                                    <span v-if="activeDatabase.stats.cpu" class="link" @click="toggleModal({'title': '% CPU used by DB for DB...', 'chartType': 'line'})">{{ activeDatabase.stats.cpu }}%</span>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="eight wide column">DB Memory Usage</td>
                                 <td>
-                                    <span v-if="activeDatabase.stats.cpu" class="link" @click="toggleModal({'title': '% Memory Usage', 'chartType': 'line'})">{{ activeDatabase.stats.memory }}%</span>
+                                    <span v-if="activeDatabase.stats.cpu" class="link" @click="toggleModal({'title': '% Memory Usage for DB...', 'chartType': 'line'})">{{ activeDatabase.stats.memory }}%</span>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="eight wide column">DB I/O Usage</td>
                                 <td>
-                                    <span v-if="activeDatabase.stats.io" class="link" @click="toggleModal({'title': 'Disk I/O in kBs', 'chartType': 'line'})">{{ activeDatabase.stats.io }} kBs</span>
+                                    <span v-if="activeDatabase.stats.io" class="link" @click="toggleModal({'title': 'Disk I/O in kBs for DB...', 'chartType': 'line'})">{{ activeDatabase.stats.io }} kBs</span>
                                 </td>
                             </tr>
                         </tbody>
@@ -84,7 +84,7 @@
                 </div>
             </div>
             <h3 class="ui dividing header">
-                Top SQL Queries
+                Top 5 Queries by Wait for Last 2 Hours
                 <div class="sub header">
                     <div class="ui search">
                         <div class="ui icon input search-box">
@@ -99,27 +99,18 @@
                 <thead>
                     <tr>
                         <th>Query</th>
-                        <th title="Average Wait per Execution over last 2 hours">Avg Time</th>
-                        <th>Total Time</th>
+                        <th title="Average Wait per Execution">Average Wait per Execution</th>
+                        <th>Total Wait Time</th>
                         <th>Options</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="(q, index) in activeDatabase.topQueries">
-                        <td @mouseleave="hidePopup(index)"
-                            class="sql link"
-                            @click="displayQueryGraph(index)">
-                            <div @mouseleave="hidePopup(index)" class="data-container" >
-                                <div @mouseleave="hidePopup(index)" class="ui fluid popup top left transition" :class="{'visible': popupStatus[index]}">
-                                    <div  class="ui four column divided center aligned grid">
-                                        <p><pre class="pre">{{q.text}}</pre></p>
-                                    </div>
-                                </div>
-                            </div>
-                            <span  @mouseover="showPopup(index)" v-if="q.text">{{ q.text.slice(0, 50) }}...</span>
+                        <td class="sql link" @click="displayQueryGraph(index)" :title="q.text">
+                            <span v-if="q.text">{{ q.text.slice(0, 50) }}...</span>
                         </td>
-                        <td>Avg wait time: {{ (q.wait / q.execs).toFixed(1) }} seconds</td>
-                        <td>Total wait time: {{ (q.wait).toFixed(1) }} seconds</td>
+                        <td>{{ (q.wait / q.execs).toFixed(1) }} seconds</td>
+                        <td>{{ (q.wait).toFixed(1) }} seconds</td>
                         <td>
                             <button class="ui icon button">
                                 <i class="ellipsis vertical icon"></i>
@@ -165,7 +156,7 @@ export default {
             api.get(function (data) {
                 vm.activeDatabase.sqlBreakdownGraph = data
                 vm.toggleModal({
-                    'title': 'Wait by Type',
+                    'title': 'Wait by Type for DB...',
                     'chartType': 'bar'
                 })
             }, 'sqlBreakdownGraph', vm.activeDatabase.id, {'hash': vm.activeDatabase.topQueries[index].hash})

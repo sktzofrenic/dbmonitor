@@ -39,9 +39,9 @@ export default {
         var data = []
         var datasets = []
         var legendDisplay = true
-        if (this.modalData.title === 'Queries in Wait Alert Last 10 Minutes') {
+        if (this.modalData.title === 'Queries in Wait Alert Last 10 Minutes for DB...') {
             labels = this.activeDatabase.highWaitQueries.map(function (value) {
-                return value.text.slice(0, 50)
+                return value.text.slice(0, 15) + "..."
             })
             data = this.activeDatabase.highWaitQueries.map(function (value) {
                 return value.wait
@@ -54,7 +54,7 @@ export default {
                 borderColor: 'rgba(54, 162, 235, 1)',
                 borderWidth: 1
             }]
-        } else if (this.modalData.title === '% CPU used by DB') {
+        } else if (this.modalData.title === '% CPU used by DB for DB...') {
             labels = this.activeDatabase.cpuGraph.map(function (value) {
                 return moment(value.date).format('M/D, h:mmA')
             }).reverse()
@@ -69,7 +69,7 @@ export default {
                 borderColor: 'rgba(54, 162, 235, 1)',
                 borderWidth: 1
             }]
-        } else if (this.modalData.title === 'Disk I/O in kBs') {
+        } else if (this.modalData.title === 'Disk I/O in kBs for DB...') {
             labels = this.activeDatabase.ioGraph.map(function (value) {
                 return moment(value.date).format('M/D, h:mmA')
             }).reverse()
@@ -84,7 +84,7 @@ export default {
                 borderColor: 'rgba(54, 162, 235, 1)',
                 borderWidth: 1
             }]
-        } else if (this.modalData.title === '% Memory Usage') {
+        } else if (this.modalData.title === '% Memory Usage for DB...') {
             labels = this.activeDatabase.memoryGraph.map(function (value) {
                 return moment(value.date).format('M/D, h:mmA')
             }).reverse()
@@ -99,7 +99,7 @@ export default {
                 borderColor: 'rgba(54, 162, 235, 1)',
                 borderWidth: 1
             }]
-        } else if (this.modalData.title === 'Wait by Type') {
+        } else if (this.modalData.title === 'Wait by Type for DB...') {
             var typeSet = new Set()
             var dateSet = new Set()
             this.activeDatabase.sqlBreakdownGraph.map(function (value) {
