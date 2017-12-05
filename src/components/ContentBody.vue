@@ -147,8 +147,8 @@ export default {
                 1: false,
                 2: false,
                 3: false,
-                4: false,
-            },
+                4: false
+            }
         }
     },
     methods: {
@@ -156,14 +156,10 @@ export default {
             'toggleModal'
         ]),
         showPopup (index) {
-            console.log('show')
             this.popupStatus[index] = true
-            console.log(this.popupStatus)
         },
         hidePopup (index) {
-            console.log('hide')
             this.popupStatus[index] = false
-            console.log(this.popupStatus)
         },
         displayQueryGraph (index) {
             var vm = this
